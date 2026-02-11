@@ -321,7 +321,7 @@ class Jobstats:
             response = requests.get('{0}/api/v1/{1}'.format(self.prom_server, qstr), params)
             return response.json()
         
-        expanded_query = query % (self.cluster, self.jobidraw, self.diff)
+        expanded_query = query % (self.jobidraw, self.diff)
         self.debug_print("query=%s, time=%s" % (expanded_query,self.end))
         try:
             j = __run_query(expanded_query, time=self.end)
@@ -342,13 +342,13 @@ class Jobstats:
     def get_job_stats(self, *args):
         # query CPU and Memory utilization data
         if not args or "total_memory" in args:
-            self.get_data('total_memory', "max_over_time(cgroup_memory_total_bytes{cluster='%s',jobid='%s',step='',task=''}[%ds])")
+            self.get_data('total_memory', "max_over_time(slurm_job_memory_limit{slurmjobid='%s',step='',task=''}[%ds])")
         if not args or "used_memory" in args:
-            self.get_data('used_memory', "max_over_time(cgroup_memory_rss_bytes{cluster='%s',jobid='%s',step='',task=''}[%ds])")
+            self.get_data('used_memory', "max_over_time(slurm_job_memory_rss{slurmjobid='%s',step='',task=''}[%ds])")
         if not args or "total_time" in args:
-            self.get_data('total_time', "max_over_time(cgroup_cpu_total_seconds{cluster='%s',jobid='%s',step='',task=''}[%ds])")
+            self.get_data('total_time', "max_over_time(slurm_job_cpu_total_seconds_total{slurmjobid='%s',step='',task=''}[%ds])")
         if not args or "cpus" in args:
-            self.get_data('cpus', "max_over_time(cgroup_cpus{cluster='%s',jobid='%s',step='',task=''}[%ds])")
+            self.get_data('cpus', "max_over_time(slurm_job_cores_allocated_total{slurmjobid='%s',step='',task=''}[%ds])")
 
         # and now GPUs
         if self.gpus:
