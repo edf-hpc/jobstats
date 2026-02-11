@@ -114,7 +114,7 @@ class BaseFormatter(ABC):
             return f'     CPU Memory: {total} ({pc}{unit} per CPU-core)'
         else:
             return total
- 
+
     @staticmethod
     def rounded_memory_with_safety(mem_used: float) -> int:
         """Return the suggested memory including 20% safety. The input

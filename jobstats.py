@@ -171,7 +171,7 @@ class Jobstats:
                 else:
                     # Try to get AdminComment from Slurm database first
                     self.data = i.get('AdminComment', None)
-                    
+
                     # If no data found and external DB is enabled, try external DB
                     if (not self.data or self.data == '') and c.EXTERNAL_DB_CONFIG.get("enabled", False):
                         try:
@@ -181,7 +181,7 @@ class Jobstats:
                                 self.debug_print(f"Retrieved job data from external database for job {self.jobidraw}")
                         except Exception as e:
                             self.debug_print(f"Failed to retrieve from external database: {e}")
-                            
+
                 self.user         = i.get('User', None)
                 self.account      = i.get('Account', None)
                 self.state        = i.get('State', None)
@@ -227,7 +227,7 @@ class Jobstats:
             msg = (f"\nFailed to lookup job {self.jobid}. Make sure the cluster is correct by\n"
                    "specifying the -c option (e.g., $ jobstats 1234567 -c frontier).\n")
             self.error(msg)
- 
+
         if self.jobidraw is None:
             if self.cluster:
                 clstr = c.CLUSTER_TRANS[self.cluster] if self.cluster in c.CLUSTER_TRANS else self.cluster
@@ -243,7 +243,7 @@ class Jobstats:
             for part in self.tres.split(","):
                 if "gres/gpu=" in part:
                     self.gpus = int(part.split("=")[-1])
- 
+
         if self.timelimitraw.isnumeric():
             self.timelimitraw = int(self.timelimitraw)
         if "CANCEL" in self.state:
@@ -320,7 +320,7 @@ class Jobstats:
                     params['time'] = time
             response = requests.get('{0}/api/v1/{1}'.format(self.prom_server, qstr), params)
             return response.json()
-        
+
         expanded_query = query % (self.jobidraw, self.diff)
         self.debug_print("query=%s, time=%s" % (expanded_query,self.end))
         try:
