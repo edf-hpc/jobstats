@@ -2,8 +2,7 @@ import math
 import datetime
 from abc import ABC, abstractmethod
 from textwrap import TextWrapper
-import config as c
-from jobstats import Jobstats
+from jobstats import c, Jobstats
 try:
     from blessed import Terminal
     blessed_is_available = True

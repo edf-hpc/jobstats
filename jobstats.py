@@ -9,7 +9,15 @@ import json
 import base64
 import gzip
 import syslog
-import config as c
+import importlib.util
+
+def load_config(path="/etc/jobstats/config.py"):
+    spec = importlib.util.spec_from_file_location("jobstats_config", path)
+    cfg = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(cfg)
+    return cfg
+
+c = load_config()
 if c.EXTERNAL_DB_CONFIG.get("enabled", False):
     from db_handler import JobstatsDBHandler
 

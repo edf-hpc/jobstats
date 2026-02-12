@@ -3,7 +3,8 @@ try:
 except ImportError:
     MySQLdb = None
 import sys
-from config import EXTERNAL_DB_CONFIG, EXTERNAL_DB_TABLE
+from jobstats import c
+EXTERNAL_DB_CONFIG, EXTERNAL_DB_TABLE = c.EXTERNAL_DB_CONFIG, c.EXTERNAL_DB_TABLE
 
 class JobstatsDBHandler:
     def __init__(self):
